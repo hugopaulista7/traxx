@@ -1,0 +1,63 @@
+setcpm(132/4)
+
+
+let kick = bank("tr909").s("bd:1").beat(`<[0,1,7,10]!3 [0,1,7,9,10]>`, 16).velocity(.9).dec(.8).duck("2:3:4")
+
+const snare = s("sd:1").beat("4,12", 16).room(0);
+
+let hh = s("hh:1*16").velocity(.8)
+
+let drums = stack(
+  kick,
+  snare,
+  hh
+)
+// .rib(0, 1/4)
+  // ._scope()
+
+
+let selfDestruction = s("robot")
+  .beat(`<[~]!7 [14]>`, 16)
+  .hpf(500)
+  .lpf(400)
+// .scope()
+
+let abort = s("robot:1")
+  .beat(`<[~]!5 [3]>`, 16)
+  .hpf(500)
+  .lpf(400)
+.scope()
+
+
+let bell = n(`[a@16] [~]`.add(7)).sound("gm_tubular_bells").dec(2).slow(4).att(.1).room(3)
+  .roomsize(10)
+  .roomdim(3)
+  .lpf(slider(210,0,5000))
+  .gain(.7)
+  .resonance(5)
+
+
+
+let melody = sound("supersaw").seg(8).note(irand(8).sub(7)).scale("C:minor")
+  .lpf(slider(1750, 0, 2000))
+  .lpattack(.05)
+  .lpenv(2)
+  .dec(.4)
+  .gain(.5)
+  // .delay(.2)
+  .room(.2)
+  .orbit(2)
+
+
+let riser = s("pulse").orbit(4).seg(16).dec(.1).fm(time).fmh(time).velocity(.6).clip(.5).room(slider(0, 0, 3))
+
+
+$: stack(
+  // bell,
+  melody,
+  drums,
+  // selfDestruction,
+  // abort,
+  // riser
+)
+  // .rib(0, 1/6)
