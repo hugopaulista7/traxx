@@ -1,0 +1,88 @@
+const journeyObj = {
+  drum: stack().color("cyan"),
+  // kick1,
+  // snare1,
+  // hihat1,
+  // shaker,
+  // woodblock
+  // .ribbon(0,1/4),
+  melody: s("piano")
+    .note(
+      `<
+            [b4] [d4] [f#4] [a4]
+            [b4] [f#4] [a4] [d4]
+            [b4] [d4] [f#4] [a4]
+            [b4] [f#4] [a4] [e4]
+            >`
+    )
+    .orbit(2)
+    .chorus(5)
+    .room(1.2)
+    .clip(0.6)
+    .fast(8)
+    .hpf(slider(1000, 0, 1000, 100))
+    .hpenv(3),
+  base: s("piano")
+    .note(
+      `<
+        [b2, f#2] [f#1, c#2] [c2, g2] [g3, d3]
+        >`
+    )
+    .orbit(2)
+    .fast(2)
+    .gain(0.3),
+  lead: stack(
+    s("gm_violin")
+      .note(
+        `<
+                  [b4] [d4] [f#4] [a4]
+                  [b4] [f#4] [a4] [d4]
+                  [b4] [d4] [f#4] [a4]
+                  [b4] [f#4] [a4] [e4]
+                  >`
+      )
+      .fast(8)
+      .clip(1.1)
+      .gain(slider(0.2, 0, 1, 0.1)),
+    s("gm_violin")
+      .note(
+        `<
+                  [b4] [d4] [f#4] [a4]
+                  [b4] [f#4] [a4] [d4]
+                  [b4] [d4] [f#4] [a4]
+                  [b4] [f#4] [a4] [e4]
+                  >`.sub(14)
+      )
+      .clip(1.1)
+      .gain(0.4)
+  )
+    .hpf(slider(1900, 500, 10000, 100))
+    .hpenv(3)
+    .room(1),
+
+  bassline: note(
+    `<
+   [g2@2 d2@2 e2@2 g2@2]
+   >`.sub(14)
+  )
+    // [g2@2 d2@2 ~ g2@2]
+    .s("gm_synth_bass_2")
+    .clip(1.2)
+    .orbit(2)
+    .fast(2)
+    .lpf(slider(500, 0, 2000, 100))
+    .lpenv(3)
+    .gain(0.7)
+    .distort(0.5)
+    .color("purple"),
+};
+
+const journey = stack(
+  journeyObj.drum
+  // journeyObj.bassline,
+  // journeyObj.melody,
+  // journeyObj.base,
+  // journeyObj.lead,
+)._punchcard();
+
+_$: journey;

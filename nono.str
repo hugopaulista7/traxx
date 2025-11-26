@@ -1,0 +1,25 @@
+setcpm(125/4)
+
+let kick = s("bd:1").beat(`<[0, 4]!3 [0,4,5]>`, 8).att(.03).duck("2:3:4").gain(.5)
+let snare = s("sd:3").beat("2, 6", 8).att(.01)
+let hh = s("hh:1*8")
+
+let drums = stack(
+  kick, 
+  snare, 
+  hh
+)._scope()
+
+
+let bass = n(`g@2 g@0.5 g@0.5 g g@2 g@0.5 g@0.5 g`.sub(4))
+  .att(.03)
+  .clip(1.1)
+  .fast(1).s("gm_electric_bass_finger")
+  .orbit(3)
+._punchcard({labels: 1, width: 1000})
+
+
+$: stack(
+  drums,
+  bass
+)

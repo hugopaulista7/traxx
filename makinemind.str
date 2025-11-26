@@ -1,0 +1,60 @@
+const kick3 = bank("tr909")
+  .s("bd:1")
+  .velocity(0.4)
+  .beat(`<[0,7,10]!3 [0,7,9,10]>`, 16)
+  .gain(0.5)
+  .duck("2:3");
+const snare3 = s("sd:1").beat("4,12", 16).room(0);
+
+const makineDrums = stack(kick3, snare3, hihatDub).gain(0.5)._scope();
+
+const makineBass = note(
+  `<
+  [c c@2 ~ f]
+  [g c@2 g f]
+>`.sub(21)
+)
+  .lpf(slider(300, 0, 1000, 100))
+  .lpenv(7)
+  .dec(0.5)
+  .distort(0.2)
+  .orbit(2)
+  .att(0.1)
+  .s("pulse")
+  .gain(0.2)
+  .velocity(1)
+  ._punchcard();
+
+const makineHarp = note("c d g f d a g b".add(7))
+  .fast(1)
+  .sound("gm_pad_poly")
+  .gain(0.3)
+  .velocity(0.4)
+  .orbit(3)
+  .clip(0.5);
+// .ribbon(0, 1/8)
+const makineHarp2 = note("c d g f d a g b".add(14))
+  .fast(1)
+  .sound("gm_lead_7_fifths")
+  .gain(0.3)
+  .velocity(0.4)
+  .orbit(3);
+const makineHarp3 = note("c d g f d a g b".add(21))
+  .fast(1)
+  .sound("gm_lead_7_fifths")
+  .gain(0.3)
+  .velocity(0.4)
+  .orbit(3)
+  .clip(0.5)
+  .rib(0, 1/12);
+
+const makine = stack(
+  makineDrums,
+  // makineBass,
+  // makineHarp,
+  // makineHarp2,
+  makineHarp3
+);
+// .bpf(10000)
+
+$: makine;

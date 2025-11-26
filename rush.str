@@ -1,0 +1,44 @@
+const kick2 = bank("tr909")
+  .s("bd:8")
+  .beat("0,7?,10", 16)
+
+  // .gain()
+  .duck(2)
+  .duckdepth(3)
+  .duckatt(0.2);
+const snare2 = s("sd:1").beat("4,12", 16).room(0);
+// .room(.5).roomsize(1)
+// .delay(.5)
+
+const rushObj = {
+  drum: stack(kick2, snare2, hihat1, hihat2)
+    // .ribbon(0, 1/8)
+    ._scope(),
+  brass: note(`<
+        [b2, f#2] [f#1, c#2] [c2, g2] [g3, d3]
+        >`)
+    .s("supersaw")
+    .fast(8)
+    .clip(0.7)
+    .distort(0.5)
+    .orbit(2)
+    .gain(0.1)
+    ._punchcard(),
+  bass: note(`b b f# c g g c a#`.sub(21))
+    .s("square")
+    .lpf(slider(0, 0, 4000, 100))
+    .clip(0.5)
+    .lpenv(3)
+    .orbit(2)
+    // .ribbon(0, 1/2)
+    ._punchcard(),
+};
+
+const rush = stack(
+  rushObj.drum
+  // rushObj.brass,
+  // rushObj.bass,
+).spiral();
+// .bpf(2000)
+
+_$: rush;

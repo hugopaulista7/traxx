@@ -1,0 +1,94 @@
+const kickDub = s("bd:8")
+  .clip(0.7)
+  .room(0.3)
+  .roomsize(0.5)
+  .lpf(100)
+  .delay(0.005)
+  .decay(0.3)
+  // .att(.02)
+  .beat(`<[0,2,4,6]!3 [0,2,4,5.5,6,6.5]>`, 8)
+  .duck(2);
+// .pan(.4)
+
+const snareDub = s("snares:3")
+  .beat(`<[2,4,6,7]!3 [2,4,6,6.5,7]>`, 8)
+  .gain(0.2)
+  .dec(0.2)
+  .hpf(700)
+  .room(0.2)
+  .roomsize(0.5)
+  .att(0.02);
+const snareDub2 = s("sd*2")
+  .gain(0.2)
+  .dec(0.2)
+  .hpf(700)
+  .room(0.3)
+  .roomsize(0.5)
+  .att(0.02);
+const clapDub = s("claps:3*2").gain(0.1).dec(0.1).hpf(700);
+const hihatDub = s("hh:1")
+  .beat("1,1.5,2, 4,5.5,6", 8)
+  .gain(0.2)
+  .dec(0.3)
+  .room(0.1);
+const shakerDub = s("shaker_small*16").gain(0.3);
+const tomDub = s("toms:2")
+  .beat("1,1.2", 4)
+  .lpf(500)
+  .room(0.4)
+  .gain(0.3)
+  .orbit(2);
+const cymbalDub = s("hh").beat("1,3,5,7", 8).room(0.5).gain(0.5);
+const hihatDub2 = s("hh:6*16").dec(0.2).gain(0.5);
+
+const dubHouseDrums = stack(
+  // kickDub,
+  tomDub
+  // snareDub,
+  // snareDub2,
+  // clapDub,
+  // hihatDub,
+  // shakerDub,
+  // cymbalDub,
+  // hihatDub2
+)
+  .color("red")
+  ._scope();
+
+const dubHouseBass = note(
+  `<
+  [g3@2 c3 ~ d3 d3]
+
+>`.sub(14)
+)
+  .s("triangle")
+  .gain(0.5)
+  .lpf(slider(500, 0, 1000, 100))
+  .clip(1)
+  .lpenv(1)
+  // .dec(.4)
+  .orbit(2)
+  // .rib(0, 1/8)
+  ._punchcard();
+
+const dubHouseChords = note(`<[c,eb,g]@8 ~ [c3,eb3,g3] [g,bb,d]@4>`.add(14))
+  .room(1)
+  .roomsize(3)
+  .roomdim(400)
+  .bpf(100)
+  .dec(0.5)
+  .fast(8)
+  .s("piano")
+  .gain(0.3)
+  ._punchcard();
+
+const dubHouse = stack(
+  // dubHouseDrums,
+  // dubHouseBass,
+  dubHouseChords
+);
+// .ribbon(0,1/8)
+// .compressor()
+// .rev()
+
+$: dubHouse;
