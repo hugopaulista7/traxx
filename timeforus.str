@@ -63,4 +63,4 @@ const tfus = stack(
   // tfusObj.voices.time
 );
 
-_$: tfus;
+tfus

@@ -1,0 +1,75 @@
+setcpm(125/4)
+
+
+const bank = "rolandtr808"
+
+let kick = s("bd:4").beat("<[0,2,4,6]!3 [0,2,4,5,5.5,6]>", 8).bank(bank).lpf(400).duck("2:3:4")
+let kick2 = s("bd:4").beat("0,2,4,6", 8).bank(bank).lpf(400).duck("2:3:4")
+let snare = s("sd:1").beat("2,6",8).bank(bank).dec(.3)
+let hh = s("hh:1*8")
+let clap = s("cp").beat("2,6", 8).bank(bank).dec(.1)
+let oh = s("cb").beat("6.5,7",8).almostAlways(x => x.beat("~", 1)).bank(bank).dec(.2)
+let hh2 = s("hh:2").seg(16).bank(bank).velocity(perlin.range(.5, .9)).hpf(perlin.range(2000, 5000))
+.room(.3).dec(.1)
+
+
+const drums = stack(
+  kick2,
+  snare,
+  hh,
+  clap,
+  oh,
+  hh2
+)
+
+let riser = s("pulse").orbit(4).seg(16).dec(.1).fm(sine.range(10000, 25000)).fmh(sine.range(4, 10)).velocity(1).clip(.5)
+  .lpf(perlin.range(200, 500)).lpenv(2)
+  // ._scope()
+
+
+  // [e1@2 g1 c1 d1@4]
+  // [a1@2 g1 g1 c1@4]
+  // [a1@2 g1 g1 c1 c1 c1 c1]
+let bass = note(`<
+  [g1@2 g1 g1 c1@4]
+>`)
+  .sound("triangle")
+  .seg(8)
+  .lpf(200)
+  .lpenv(2)
+  .distort(1)
+  .postgain(1)
+  .clip(.5)
+  .orbit(2)
+
+  // .fast(2)
+  // ._scope()
+
+let chords = s("piano").note(`<[c, e, g] [e, f, c]>`).seg(1).lpf(300).dec(2).slow(4).room(1).roomsize(2).roomdim(200).fm(300).fmh(2)
+  // .hpf(1000)
+
+let lead = note(irand(8).add(7)).seg(8).scale("C:minor").dec(1.2).s("piano")
+let lead2 = note(irand(8).add(14)).seg(8).scale("C:minor").dec(1.2).fmh(4).fm(time).s("piano")
+let lead3 = note(irand(8).add(7)).seg(1).scale("C:minor").dec(8).clip(1.1).s("gm_violin")
+let lead4 = note(irand(8).sub(14)).seg(8).scale("C:minor").dec(1.2).fmh(4).fm(time).s("piano")
+
+const melodies = stack(
+  lead,
+  lead2,
+  lead3,
+  // lead4
+)
+  // .hpf(10000).room(1)
+
+stack(
+  stack(
+    drums,
+    // bass,
+    riser,
+    // chords
+  ),
+  bass,
+  melodies
+)
+
+

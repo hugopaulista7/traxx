@@ -1,0 +1,36 @@
+setcpm(130/4)
+
+let ptn = "0 3 <0 5 3> <11 13> 1 6 5 <7 5>"
+
+let wavet =  stack(
+    note(ptn).s("saw").detune(.8).postgain(.3).orbit(2)._scope(),
+    note(ptn.sub(7)).detune(1).s("supersaw")
+  .lpenv(1).lp(20000).postgain(.6).orbit(3)._scope(),
+    note(ptn.add(irand(2))).s("square").dist(3.5)
+  .distortvol(.5)
+  .distorttype(6)
+  .lpf(100).lpenv(5).postgain(.1).orbit(4)._scope()
+  )._punchcard()
+  // .postgain(.05)
+  
+
+let kick = s("bd:1*4").postgain(.4).lpf(200).lpa(.1).lpenv(2).clip(.2)
+  .duck("2:3:4:5").duckdepth(1).duckatt(.2)
+let snare = s("sd:3*2").postgain(.2).lpf(3000)
+let hh = s("hh:6*16").velocity(perlin.range(.5,.8)).postgain(.7)
+
+let bass = note("e2@32 c2@16 e2@32 c2@16").seg(16).sound("saw").lpf(perlin.range(100, 1500)).lpenv(2)
+  .postgain(.5).orbit(5)
+  // .rib(0, 1/4)
+._scope()
+let riser = s("pulse").orbit(4).seg(16).dec(.1).fm(time).fmh(time).velocity(.6).clip(.5).room(slider(0.228, 0, 3)).postgain(.4)
+
+stack(
+  kick,
+  snare,
+  hh,
+  bass,
+  riser,
+
+  wavet.scale("C3:minor").seg(8).clip(perlin.range(.5, 1.1))
+)
