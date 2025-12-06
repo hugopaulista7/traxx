@@ -1,0 +1,50 @@
+setcpm(100/4)
+
+register('acidenv', (x, pat) => pat.lpf(100)
+  .lpenv(x * 9).lps(.2).lpd(.12).lpq(2)
+)
+
+all(x => x.postgain(.6))
+
+
+let kick = s("bd:1").beat("0,4,8,12,14",16).duck(2)
+let hh = s("oh:2").beat("0,2,3,4,6,7,8,10,11,12,14,15",16)
+
+let shaker = s("sh").beat("0,2,3,4,6,7,8,10,11,12,14,15",16)
+
+let cowbell = s("cb").beat("0,2,3,4,6,7,8,10,11,12,14,15",16).bank("9000")
+
+let sd = s("sd:1").beat("4,10,11",16)
+
+let chords = note("[g,bb,d] [g,bb,d] [d,f#,a]".add(14)).beat("0,2,3,4,6,7,8,10,11,12,14,15",16)
+  .sound("gm_orchestral_harp").room(3).roomsize(.5)
+  // .bpf(2000)
+  .bpenv(4).clip(.3).dec(.4)
+
+
+
+let bass = note("[g,d]@4 [c,g]@4 [g,d]@4 [d,a]@2".sub(7)).s("saw")
+  .beat("0,2,3,4,6,7,8,10,11,12,14,15",16)
+  .seg(8)
+  .acidenv(.5)
+  .orbit(2)
+  // ._punchcard()
+
+
+let drums = stack(
+  kick,
+  // hh,
+  shaker,
+  // cowbell,
+  sd,
+ 
+)
+  // .rib(0, 1/2)
+  // ._scope()
+
+
+stack(
+  // drums,
+  chords,
+  // bass
+)
