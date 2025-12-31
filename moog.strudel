@@ -1,0 +1,18 @@
+function MOOG({sequencer = "-", sequencerN = "-", chordN = "-",
+      /*osc1*/   octave1 = slider(1,0,3,1), wave1 = slider(2,0,3,1), osc1lvl = slider(1,0,1), noiselvl = slider(0.374,0,1),
+      /*osc2*/   octave2 = slider(2,0,3,1), wave2 = slider(2,0,3,1), osc2lvl = slider(0.878,0,1), osc2pitch = slider(19.728,0,24),
+       /*mod*/   modWheel = slider(0.61,0,1), modRate = slider(4.96,0,20), modPitch = slider(1.675,0,5), modCutoff = slider(0.77,0,5),
+    /*filter*/   cutoff = slider(18.775,10,25).withValue(x => Math.pow(1.5, x)), resonance = slider(13.3,0,50), filterEnv = slider(0.645,0,1),
+  /*envelope*/   attack = slider(0.605,0,1), decay = slider(0.351,0,1), sustain = slider(1,0,1), release = slider(0.637,0,1),
+    /*output*/   reverb = slider(0.205,0,1), volume = slider(0.58,0,1), 
+                } = {}){return stack(
+  note(sequencer.add(octave1.mul(12))).s(wave1.pick(["tri","saw","square","pulse"])).gain(osc1lvl),s("white").gain(noiselvl).struct(sequencer),
+  n(sequencerN.add(octave1.mul(4))).chord(chordN).voicing().s(wave1.pick(["tri","saw","square","pulse"])).gain(osc1lvl),
+  note(sequencer.add(octave2.mul(12).sub(12)).add(osc2pitch.sub(12))).s(wave2.pick(["tri","saw","square","pulse"])).gain(osc2lvl),
+  n(sequencerN.add(octave2.mul(4))).chord(chordN).voicing().s(wave2.pick(["tri","saw","square","pulse"])).gain(osc2lvl))
+.vib(modRate).vibmod(modPitch.mul(modWheel)).tremolo(modRate).tremolodepth(modCutoff.mul(modWheel))
+.lpf(cutoff).lpq(resonance).ftype(1).lpa(attack.mul(filterEnv)).lpd(decay.mul(filterEnv)).lps(sustain.mul(filterEnv)).lpr(release.mul(filterEnv))
+.attack(attack).decay(decay).sustain(sustain).release(release).room(1).rsize(reverb.mul(4)).rfade(reverb.div(2)).postgain(volume)}
+
+$:MOOG({sequencer:"c@16"})
+    
