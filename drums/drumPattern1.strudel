@@ -1,0 +1,16 @@
+// "electro break drums 1"
+
+// @by hvgo
+
+const bankName = "TR808"
+
+$kicks: bank(bankName).s("bd:3").beat("0,1,3,6,7,9,10",16).clip(.9).lpf(800)
+
+$snare: bank(bankName).s("sd:1").beat("4,12",16).clip(1.2).gain(.8)
+
+$clap: bank(bankName).s("cp").beat("3.9,11.9",16).gain(.7).clip(.8)
+
+$hh: bank(bankName).s("hh:9").beat("0,1,3,5,6,8,9,11,12,13",16)
+  .velocity("1 0.5 0.9 1 0.5 0.7 0.9 1 0.5 0.7")
+
+
