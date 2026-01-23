@@ -6,7 +6,7 @@ setcpm(100/4)
 all(x => x.postgain(.9))
 
 _$bd: s("bd:4").beat(`<[0,2,4,6]!7 [0,2,3.5,4,5,6]>`,8)
-  .duck("2:3:4:5").gain(.5).duckatt(".25")
+  .duck("2:3:4:5").gain(.5).duckatt(".25").color("red")._punchcard()
 
 _$aa: s("dantranh:1")
   .note(`<g3 a3 e3 ~ ~  a3 ~  f#3>`).fast(8).att(.25)
@@ -21,22 +21,23 @@ _$aa: s("dantranh:1")
   
   ._punchcard()
 $sn: s("sd:9").beat(`<[1,3]!3 [1,2.8,3]>`,4).gain(.7)
-  .room(1).roomsize(5).hpf(slider(0, 0, 25000, 250))
+  // .room(1).roomsize(5).hpf(slider(11750, 0, 25000, 250))
 
-$hh: s("hh:1*16").velocity("0.6 0.4 0.7 0.9 0.6 1 0.7 0.9")
+_$hh: s("hh:1*16").velocity("0.6 0.4 0.7 0.9 0.6 1 0.7 0.9")
 
-$sub: s("sine").note("g1 c2 g1 c2").beat("0,1,2,3",4).gain(.9).orbit(3).rib(0,1/4)
+_$sub: s("sine").note("g1 c2 g1 c2").beat("0,1,2,3",4).gain(.9).orbit(3).rib(0,1/4)
 
-$bass: s("pulse").note(`<~ f2 ~ f2 g2 ~ g2 ~ >`)
-  .lpf(slider(700, 0, 2000, 100))
-  .lpenv(2)
+_$bass: s("pulse").note(`<~ f2 ~ f2 g2 ~ g2 ~ >`)
+  .lpf(slider(500, 0, 2000, 100))
+  .lpenv(6)
   .fast(8)
+  // .clip(1.5)
   .sus(4)
-  .orbit(4).gain(.7)
+  .orbit(4).gain(.7)._punchcard()
 
 _$riser: s("pulse")
   .note(irand(16))
-  .seg(16).hpf(3000).orbit(3).room(3).roomsize(2).clip(.3)
+  .seg(16).hpf(5000).orbit(3).room(3).roomsize(.5).clip(.3)
 .fm(time).fmh(time).gain(.7)
 
 _$oh: s("oh:6").beat("1,3,5,7",8).gain(.4).clip(.7)
@@ -50,19 +51,13 @@ _$chord: s("psaltery_spiccato")
   // .room(1)
   .gain(.8).orbit(3)._punchcard()
 
-_$chord2: s("supersaw").note("e2")
-  .seg(16).att(.3).slow(2)
-  .orbit(2)
-  .hpf(3000)
-  .detune(4).room(2).roomsize(1).orbit(4).gain(.6)._punchcard()
-  
 
-_$violin: note(`<[c3,b3 ,c4, e4, g3, c5] [g4,g3,bb3,d3,d4,d5,bb4]>`)
+$violin: note(`<[c3,b3 ,c4, e4, g3, c5] [g4,g3,bb3,d3,d4,d5,bb4]>`)
   .s("gm_piano").att(".5:.02:.3:.25:0").slow(1)
   // .room(3).roomsize(.5)
   .bpf(slider(750, 0, 15000, 250)).delay(1)
   .clip(.4)
-  .gain(.5)
+  .gain(.2)
   .orbit(4)
 
 const englishChatter = n("<0 1>").s("radio").slow(4).bpf(1200)
@@ -70,8 +65,8 @@ const russianChatter = n("<2 3>").s("radio").slow(4).bpf(1200)
 
 
 $radio: stack(
-  // s("white").slow(4).bpf(500),
-   // englishChatting, // usa
-   // russianChatter, // russ
+  // s("white").slow(4).bpf(200),
+   // englishChatter,
+   // russianChatter, 
   // n("0").s("helicopter").gain(.5).bpf(3000).slow(2)
-).gain(slider(0.754, 0, 1)).orbit(5).room(1).roomsize(.6)
+).gain(slider(0.515, 0, 1)).orbit(5).room(1).roomsize(.6).scope()
